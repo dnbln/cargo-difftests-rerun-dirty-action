@@ -41,11 +41,11 @@ runs:
   using: "composite"
   steps:
     - name: Install cargo-difftests
-      if: inputs.cargo-difftests-crate-path == null || inputs.cargo-difftests-crate-path == ""
+      if: ${{ inputs.cargo-difftests-crate-path == null || inputs.cargo-difftests-crate-path == "" }}
       run: cargo install cargo-difftests
       shell: bash
     - name: Install cargo-difftests with local
-      if: inputs.cargo-difftests-crate-path != null && inputs.cargo-difftests-crate-path != ""
+      if: ${{ inputs.cargo-difftests-crate-path != null && inputs.cargo-difftests-crate-path != "" }}
       run: |
         cargo install rustc-wrapper-difftests
         cargo install --path ${{ inputs.cargo-difftests-crate-path }}
