@@ -39,6 +39,7 @@ runs:
   steps:
     - name: Install cargo-difftests
       run: cargo install cargo-difftests
+      shell: bash
     - name: Check commit to diff with
       run: |
         if [ "${{ inputs.algorithm }}" -eq "git-diff-files" ] || [ "${{ inputs.algorithm }}" -eq "git-diff-hunks" ]; then
