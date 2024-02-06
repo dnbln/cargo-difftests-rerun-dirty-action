@@ -26,7 +26,7 @@ inputs:
   commit-to-diff-with:
     required: false
     type: string
-  rerunner:
+  runner:
     required: false
     type: string
     default: "cargo-difftests-default-rerunner"
@@ -56,7 +56,7 @@ runs:
         else
           commit_flag=""
         fi
-        cargo difftests analyze-all-from-index --index-root ${{ inputs.index-root }} --algo ${{ inputs.algorithm }} $commit_flag --action=rerun-dirty --rerunner ${{ inputs.rerunner }} || exit $?
+        cargo difftests analyze-all-from-index --index-root ${{ inputs.index-root }} --algo ${{ inputs.algorithm }} $commit_flag --action=rerun-dirty --runner ${{ inputs.runner }} || exit $?
       shell: bash
       env:
         RUST_BACKTRACE: full
