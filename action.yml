@@ -42,7 +42,7 @@ runs:
       shell: bash
     - name: Check commit to diff with
       run: |
-        if [ "${{ inputs.algorithm }}" -eq "git-diff-files" ] || [ "${{ inputs.algorithm }}" -eq "git-diff-hunks" ]; then
+        if [ "${{ inputs.algorithm }}" = "git-diff-files" ] || [ "${{ inputs.algorithm }}" = "git-diff-hunks" ]; then
           if [ -z "${{ inputs.commit-to-diff-with }}" ]; then
             echo "error: commit-to-diff-with is required for given algorithm" >&2
             exit 1
