@@ -48,7 +48,7 @@ runs:
       if: ${{ inputs.cargo-difftests-crate-path != null && inputs.cargo-difftests-crate-path != '' }}
       run: |
         cargo install rustc-wrapper-difftests
-        cargo install --path ${{ inputs.cargo-difftests-crate-path }}
+        cargo install --path ${{ inputs.cargo-difftests-crate-path }} --force
       shell: bash
     - name: Check commit to diff with
       run: |
