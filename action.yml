@@ -62,9 +62,9 @@ runs:
     - name: Run difftests
       run: |
         if [ -z "${{ inputs.commit-to-diff-with }}" ]; then
-          commit_flag="--commit ${{ inputs.commit-to-diff-with }}"
-        else
           commit_flag=""
+        else
+          commit_flag="--commit ${{ inputs.commit-to-diff-with }}"
         fi
         cargo difftests analyze-all-from-index --index-root ${{ inputs.index-root }} --algo ${{ inputs.algorithm }} $commit_flag --action=rerun-dirty --runner ${{ inputs.runner }} || exit $?
       shell: bash
