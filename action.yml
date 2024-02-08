@@ -47,26 +47,24 @@ runs:
     - name: Install cargo-difftests with local
       if: ${{ inputs.cargo-difftests-crate-path != null && inputs.cargo-difftests-crate-path != '' }}
       run: |
-        cargo install rustc-wrapper-difftests
-        cargo install --path ${{ inputs.cargo-difftests-crate-path }} --force
+        cargo install --path ${{ inputs.cargo-difftests-crate-path }}
       shell: bash
-    - name: Check commit to diff with
-      run: |
-        if [ "${{ inputs.algorithm }}" = "git-diff-files" ] || [ "${{ inputs.algorithm }}" = "git-diff-hunks" ]; then
-          if [ -z "${{ inputs.commit-to-diff-with }}" ]; then
-            echo "error: commit-to-diff-with is required for given algorithm" >&2
-            exit 1
-          fi
-        fi
-      shell: bash
-    - name: Run difftests
+    - name: Commit to diff with
       run: |
         if [ -z "${{ inputs.commit-to-diff-with }}" ]; then
-          commit_flag=""
+            commit_flag=""
+
+            if [ "${{ inputs.algorithm }}" = "git-diff-files" ] || [ "${{ inputs.algorithm }}" = "git-diff-hunks" ]; then
+              echo "error: commit-to-diff-with is required for given algorithm" >&2
+              exit 1
+            fi
         else
           commit_flag="--commit ${{ inputs.commit-to-diff-with }}"
         fi
-        cargo difftests analyze-all-from-index --index-root ${{ inputs.index-root }} --algo ${{ inputs.algorithm }} $commit_flag --action=rerun-dirty --runner ${{ inputs.runner }} || exit $?
+        echo "commit_flag=$commit_flag" >> $GITHUB_ENV
+      shell: bash
+    - name: Run difftests
+      run: cargo difftests analyze-all-from-index --index-root ${{ inputs.index-root }} --algo ${{ inputs.algorithm }} $commit_flag --action=rerun-dirty --runner ${{ inputs.runner }}
       shell: bash
       env:
         RUST_BACKTRACE: full
